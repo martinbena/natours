@@ -8,6 +8,7 @@ const xss = require("xss-clean");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const cors = require("cors");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -20,10 +21,26 @@ const viewRouter = require("./routes/viewRoutes");
 // Start express app
 const app = express();
 
+// app.enable("trust proxy"); /* po aplikování HTTPS, jen Heroku? */
+
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
 // 1) GLOBAL MIDDLEWARES
+
+// Implement CORS - cross origin resource sharing- může se přidat třeba jen na specifickou route
+// Access-Controll-Allow-Origin *
+app.use(cors());
+
+/* app.use(
+  cors({
+    origin: "https://www.natours.com",
+  })
+); použiju, když nechci všechen cross origin, ale jen něco, třeba mám front end někde a API někde jinde */
+
+app.options("*", cors());
+// app.options("/api/v1/tours/:id", cors());
+
 // console.log(process.env.NODE_ENV);
 // Serving static files
 app.use(express.static(path.join(__dirname, "public")));
