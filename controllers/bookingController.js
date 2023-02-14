@@ -1,5 +1,5 @@
 const Tour = require("../models/tourModel");
-const Userr = require("../models/userModel");
+const User = require("../models/userModel");
 const Booking = require("../models/bookingModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
@@ -18,7 +18,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // success_url: `${req.protocol}://${req.get("host")}/?tour=${
     //   req.params.tourId
     // }&user=${req.user.id}&price=${tour.price}`,
-    success_url: `${req.protocol}://${req.get("host")}/my-tours`,
+    success_url: `${req.protocol}://${req.get("host")}/my-tours?alert=booking`,
     cancel_url: `${req.protocol}://${req.get("host")}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
